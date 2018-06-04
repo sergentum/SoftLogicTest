@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import ru.sergentum.model.MyUserDetails;
 import ru.sergentum.model.Role;
 import ru.sergentum.model.User;
 import ru.sergentum.repository.RoleRepository;
@@ -22,8 +23,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-		return null;
-	}
+        // TODO: 2018-06-04  implement UserDetails by User
+        return null;
+    }
 
 	@Autowired
     private RoleRepository roleRepository;

@@ -39,6 +39,13 @@
     <beans:bean class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" id="bCryptPasswordEncoder"/>
 
     <authentication-manager>
+        <!--<authentication-provider>-->
+            <!--<user-service>-->
+                <!--<user name="admin" password="admin"-->
+                      <!--authorities="ROLE_ADMIN" />-->
+            <!--</user-service>-->
+        <!--</authentication-provider>-->
+
         <authentication-provider user-service-ref="userService">
             <password-encoder ref="bCryptPasswordEncoder"/>
         </authentication-provider>

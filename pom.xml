@@ -41,6 +41,9 @@
         <!--Tools-->
         <ehcache.version>3.5.2</ehcache.version>
 
+        <!--JSP-JSTL-->
+        <jstl.version>1.2</jstl.version>
+
         <!--webjars-->
         <webjars-bootstrap.version>4.1.0</webjars-bootstrap.version>
         <webjars-jquery.version>3.3.1-1</webjars-jquery.version>
@@ -165,11 +168,11 @@
             <!--<scope>provided</scope>-->
         <!--</dependency>-->
 
-        <!--<dependency>-->
-            <!--<groupId>javax.servlet</groupId>-->
-            <!--<artifactId>jstl</artifactId>-->
-            <!--<version>1.2</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>${jstl.version}</version>
+        </dependency>
 
 
 
