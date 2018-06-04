@@ -6,7 +6,7 @@
 
 
     <!-- Not necessary, already included with component-scan -->
-    <!--<context:annotation-config/>-->
+    <context:annotation-config/>
 
     <context:component-scan base-package="**.service"/>
 </beans>
