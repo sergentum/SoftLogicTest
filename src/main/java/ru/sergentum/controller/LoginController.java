@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.ContextLoader;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 import ru.sergentum.model.Payee;
 import ru.sergentum.model.Role;
@@ -17,6 +19,7 @@ import ru.sergentum.repository.RoleRepository;
 import ru.sergentum.repository.TransactionRepository;
 import ru.sergentum.service.UserService;
 
+import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -89,14 +92,14 @@ public class LoginController {
 	@RequestMapping(value={"/", "/login"}, method = RequestMethod.GET)
 	public ModelAndView login(){
 
-        initDatabase();
+//        initDatabase();
 		ModelAndView modelAndView = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findUserByEmail(auth.getName());
         if (user != null) {
             modelAndView.setViewName("redirect:app/home");
         } else {
-            modelAndView.setViewName("login");
+            modelAndView.setViewName("index");
         }
 		return modelAndView;
 	}
@@ -135,10 +138,10 @@ public class LoginController {
 	@RequestMapping(value="/app/home", method = RequestMethod.GET)
 	public ModelAndView home(){
 		ModelAndView modelAndView = new ModelAndView();
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		User user = userService.findUserByEmail(auth.getName());
-		modelAndView.addObject("userName", "Welcome " + user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
-		modelAndView.addObject("adminMessage","Content Available Only for Users with Admin Role");
+//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//		User user = userService.findUserByEmail(auth.getName());
+//		modelAndView.addObject("userName", "Welcome " + user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
+//		modelAndView.addObject("adminMessage","Content Available Only for Users with Admin Role");
 		modelAndView.setViewName("app/home");
 		return modelAndView;
 	}

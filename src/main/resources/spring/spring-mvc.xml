@@ -9,9 +9,14 @@
        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
 
-    <import resource="spring-app.xml"/>
     <import resource="spring-db.xml"/>
     <import resource="spring-security.xml"/>
+
+    <mvc:annotation-driven/>
+
+    <context:annotation-config/>
+
+    <context:component-scan base-package="**.service"/>
 
     <!---->
     <!--<bean class="ru.javawebinar.topjava.web.json.JacksonObjectMapper" id="objectMapper" factory-method="getMapper"/>-->
@@ -41,16 +46,16 @@
         <!--</mvc:argument-resolvers>-->
     <!--</mvc:annotation-driven>-->
 
-    <context:component-scan base-package="**.controller"/>
+    <context:component-scan base-package="ru.sergentum.controller"/>
 
     <!--  all resources inside folder src/main/webapp/resources are mapped so they can be referred to inside JSP files -->
     <mvc:resources mapping="/resources/**" location="/resources/"/>
 
     <!-- use WebJars so Javascript and CSS libs can be declared as Maven dependencies (Bootstrap, jQuery...) -->
-    <mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/"/>
+    <!--<mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/"/>-->
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-          p:prefix="/WEB-INF/jsp/"
+          p:prefix="/resources/jsp/"
           p:suffix=".jsp"/>
 
 <!--
@@ -75,9 +80,9 @@
         <!--<property name="defaultLocale" value="en"/>-->
     <!--</bean>-->
 
-    <mvc:interceptors>
-        <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
-            <property name="paramName" value="lang"/>
-        </bean>
-    </mvc:interceptors>
+    <!--<mvc:interceptors>-->
+        <!--<bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">-->
+            <!--<property name="paramName" value="lang"/>-->
+        <!--</bean>-->
+    <!--</mvc:interceptors>-->
 </beans>
