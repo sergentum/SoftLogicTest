@@ -24,7 +24,9 @@ public class UserServiceImpl implements UserService {
 	public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         // TODO: 2018-06-04  implement UserDetails by User
         System.out.println("try to find user: " + s);
-        return userRepository.findByEmail(s);
+        UserDetails user = userRepository.findByEmail(s);
+		System.out.println(user);
+        return user;
     }
 
 	@Autowired

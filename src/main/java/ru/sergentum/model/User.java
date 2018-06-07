@@ -29,7 +29,7 @@ public class User implements UserDetails{
 	@Column(name = "password")
 	@Length(min = 3, message = "*Your password must have at least 5 characters")
 	@NotEmpty(message = "*Please provide your password")
-	@Transient
+//	@Transient
 	private String password;
 
 	@Column(name = "name")
@@ -46,7 +46,7 @@ public class User implements UserDetails{
 	@Column(name = "balance")
 	private int balance;
 
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -129,19 +129,22 @@ public class User implements UserDetails{
 	}
 
 	@Override
-    public String toString() {
-        return "User{" +
-                "email='" + email + '\'' +
-                ", name='" + name + '\'' +
-                '}';
-    }
+	public String toString() {
+		return "User{" +
+				"email='" + email + '\'' +
+				", password='" + password + '\'' +
+				", name='" + name + '\'' +
+				'}';
+	}
 
 	// TODO: 2018-06-04 implement methods correctly
     
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		HashSet authorities = new HashSet();
-		authorities.addAll(this.getRoles());
+		for (Role role:getRoles()) {
+			authorities.add((GrantedAuthority) role::getRole);
+		}
 		return authorities;
 	}
 

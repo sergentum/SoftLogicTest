@@ -4,48 +4,24 @@
              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
-    <!--<http pattern="/resources/**" security="none"/>-->
-    <!--<http pattern="/webjars/**" security="none"/>-->
+    <http pattern="/resources/**" security="none"/>
+    <http pattern="/webjars/**" security="none"/>
 
-    <!--<http auto-config="true">-->
-        <!--<intercept-url pattern="/admin**" access="hasRole('ROLE_ADMIN')" />-->
-        <!--<csrf disabled="true" />-->
-    <!--</http>-->
-
-    <!--<http pattern="/rest/**" use-expressions="true" name="restSecurityFilterChain" create-session="stateless">-->
-        <!--<http-basic/>-->
-        <!--<intercept-url pattern="/rest/admin/**" access="hasRole('ROLE_ADMIN')"/>-->
-        <!--<intercept-url pattern="/**" access="isAuthenticated()"/>-->
-        <!--<csrf disabled="true"/>-->
-    <!--</http>-->
-
-
-
-    <!--<http>-->
-        <!--<intercept-url pattern="/login" access="isAnonymous()"/>-->
-        <!--<intercept-url pattern="/register" access="isAnonymous()"/>-->
-
-        <!--&lt;!&ndash;<intercept-url pattern="/**/admin/**" access="hasRole('ROLE_ADMIN')"/>&ndash;&gt;-->
-        <!--<intercept-url pattern="/**" access="isAuthenticated()"/>-->
-
-        <!--<form-login login-page="/login" default-target-url="/meals"-->
-                    <!--authentication-failure-url="/login?error=true"-->
-                    <!--login-processing-url="/spring_security_check"/>-->
-        <!--<logout logout-success-url="/login"/>-->
-
-        <!--&lt;!&ndash;<csrf disabled="true"/>&ndash;&gt;-->
-    <!--</http>-->
+    <http auto-config="true">
+        <intercept-url pattern="/app/**" access="hasRole('ROLE_USER') or  hasRole('ROLE_ADMIN')" />
+        <form-login login-page="/login"
+                    login-processing-url="/spring_security_check"
+                    username-parameter="j_username"
+                    password-parameter="j_password"
+                    default-target-url="/"
+                    authentication-failure-url="/login?auth=failure"
+        />
+        <csrf disabled="true" />
+    </http>
 
     <beans:bean class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" id="bCryptPasswordEncoder"/>
 
     <authentication-manager>
-        <!--<authentication-provider>-->
-            <!--<user-service>-->
-                <!--<user name="admin" password="admin"-->
-                      <!--authorities="ROLE_ADMIN" />-->
-            <!--</user-service>-->
-        <!--</authentication-provider>-->
-
         <authentication-provider user-service-ref="userService">
             <password-encoder ref="bCryptPasswordEncoder"/>
         </authentication-provider>

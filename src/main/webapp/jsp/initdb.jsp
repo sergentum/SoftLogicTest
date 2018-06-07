@@ -1,22 +1,17 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: username
-  Date: 2018-06-04
-  Time: 22:08 PM
+  Date: 2018-06-07
+  Time: 21:17 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Login</title>
+    <title>InitDB</title>
 </head>
 <body>
-Login JSP!
-
-<div align="center">
-    <h1>Spring Security Basic Demo (XML)</h1>
-    <a href="/admin">Go to Administrator Page</a>
-</div>
-
+DB Initialization requested
 </body>
 </html>

@@ -3,12 +3,11 @@ package ru.sergentum.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.context.ContextLoader;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 import ru.sergentum.model.Payee;
 import ru.sergentum.model.Role;
@@ -19,7 +18,6 @@ import ru.sergentum.repository.RoleRepository;
 import ru.sergentum.repository.TransactionRepository;
 import ru.sergentum.service.UserService;
 
-import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -39,7 +37,8 @@ public class LoginController {
 	@Autowired
     private TransactionRepository transactionRepository;
 
-    private void initDatabase(){
+	@RequestMapping(value={"/initdb"}, method = RequestMethod.GET)
+    private ModelAndView initdb(){
 
         // write payee to db if needed
         Payee payee = new Payee("OOO JEK", 10, 30);
@@ -87,23 +86,34 @@ public class LoginController {
         for (Transaction trans : user.getTransactions()) {
             System.out.println(trans);
         }
-	}
-
-	@RequestMapping(value={"/", "/login"}, method = RequestMethod.GET)
-	public ModelAndView login(){
-
-//        initDatabase();
 		ModelAndView modelAndView = new ModelAndView();
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		User user = userService.findUserByEmail(auth.getName());
-        if (user != null) {
-            modelAndView.setViewName("redirect:app/home");
-        } else {
-            modelAndView.setViewName("index");
-        }
+		modelAndView.setViewName("initdb");
 		return modelAndView;
 	}
-	
+
+	@RequestMapping(value={"/"}, method = RequestMethod.GET)
+	public ModelAndView index(){
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("index");
+		return modelAndView;
+	}
+
+	@RequestMapping(value={"/login"}, method = RequestMethod.GET)
+	public ModelAndView login(){
+		ModelAndView modelAndView = new ModelAndView();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		System.out.println(auth);
+		UserDetails user = userService.loadUserByUsername(auth.getName());
+		String errorMessage = "";
+		if (user != null) {
+			modelAndView.setViewName("redirect:app/");
+		} else {
+			modelAndView.setViewName("login");
+			errorMessage = "Email or Password invalid, please verify";
+		}
+		modelAndView.addObject("errorMessage", errorMessage);
+		return modelAndView;
+	}
 	
 	@RequestMapping(value="/registration", method = RequestMethod.GET)
 	public ModelAndView registration(){
@@ -135,16 +145,16 @@ public class LoginController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value="/app/home", method = RequestMethod.GET)
+	@RequestMapping(value="/app/", method = RequestMethod.GET)
 	public ModelAndView home(){
 		ModelAndView modelAndView = new ModelAndView();
 //		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 //		User user = userService.findUserByEmail(auth.getName());
 //		modelAndView.addObject("userName", "Welcome " + user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
 //		modelAndView.addObject("adminMessage","Content Available Only for Users with Admin Role");
-		modelAndView.setViewName("app/home");
+		modelAndView.setViewName("app/index");
 		return modelAndView;
 	}
-	
 
+	// TODO: 2018-06-07 lkjasdfjkj 
 }
