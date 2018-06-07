@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -26,7 +27,7 @@ public class User implements UserDetails{
 	private String email;
 
 	@Column(name = "password")
-	@Length(min = 5, message = "*Your password must have at least 5 characters")
+	@Length(min = 3, message = "*Your password must have at least 5 characters")
 	@NotEmpty(message = "*Please provide your password")
 	@Transient
 	private String password;
@@ -51,7 +52,7 @@ public class User implements UserDetails{
             inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     private Set<Transaction> transactions;
 
     public void setTransactions(Set<Transaction> transactions) {
@@ -135,35 +136,37 @@ public class User implements UserDetails{
                 '}';
     }
 
-	// TODO: 2018-06-04 implement methods correctly 
+	// TODO: 2018-06-04 implement methods correctly
     
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return null;
+		HashSet authorities = new HashSet();
+		authorities.addAll(this.getRoles());
+		return authorities;
 	}
 
 	@Override
 	public String getUsername() {
-		return null;
+		return getEmail();
 	}
 
 	@Override
 	public boolean isAccountNonExpired() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return false;
+		return true;
 	}
 }
