@@ -1,0 +1,7 @@
+DROP TABLE users CASCADE;
+DROP TABLE user_role CASCADE;
+DROP TABLE transaction CASCADE;
+DROP TABLE role CASCADE;
+DROP TABLE payee CASCADE;
+DROP SEQUENCE hibernate_sequence;
+DROP SEQUENCE payee_payee_id_seq;

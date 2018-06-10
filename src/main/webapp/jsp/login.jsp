@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: username
@@ -43,7 +44,7 @@
 
     <c:if test="${param.auth eq 'failure'}">
     <div class="error">
-        <c:out value="Login or password invalid, please verify" />
+        <spring:message code="error.LoginError"/>
     </div>
     </c:if>
 </div>

@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,6 +26,9 @@ public class User implements UserDetails{
 	@Email(message = "*Please provide a valid Email")
 	@NotEmpty(message = "*Please provide an email")
 	private String email;
+
+    @Pattern(regexp="(^$|[0-9]{10})")
+    private String phone;
 
 	@Column(name = "password")
 	@Length(min = 3, message = "*Your password must have at least 5 characters")
@@ -46,7 +50,7 @@ public class User implements UserDetails{
 	@Column(name = "balance")
 	private int balance;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
