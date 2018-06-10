@@ -32,7 +32,6 @@ public class DBController {
     @Autowired
     private TransactionRepository transactionRepository;
 
-
     @RequestMapping(value = {"/initdb"}, method = RequestMethod.GET)
     private ModelAndView initdb() {
 
@@ -58,7 +57,7 @@ public class DBController {
         }
 
 
-        //write user to db if nneded
+        //write user to db if needed
         User user = new User();
         user.setEmail("asd@asd.asd");
         user.setPassword("123123");
@@ -66,33 +65,32 @@ public class DBController {
         user.setLastName("Vorozhtsov");
         user.setActive(1);
         user.setBalance(100);
-        user.setRoles(roles);
-        System.out.println("User BEFORE saving " + user);
+        user.setRoles(rolesDb);
         User dbuser = userService.findUserByEmail(user.getEmail());
         if (dbuser == null) {
-            System.out.println("user not found, insert new one " + user);
             userService.saveUser(user);
-        } else {
-            System.out.println("user found in db " + dbuser);
         }
-
 
         //write transaction to db if needed
         dbuser = userService.findUserByEmail(user.getEmail());
-        System.out.println("User AFTER saving " + dbuser);
+
         Transaction transaction = new Transaction();
         transaction.setAmount(1234);
         transaction.setUser(dbuser);
         transaction.setPayee(payee);
         transactionRepository.save(transaction);
 
-        for (Transaction trans : dbuser.getTransactions()) {
-            System.out.println(trans);
-        }
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("message");
+        modelAndView.setViewName("db");
         modelAndView.addObject("message", "DB init requested");
         return modelAndView;
     }
 
+    @RequestMapping(value = {"/dropdb"}, method = RequestMethod.GET)
+    private ModelAndView dropdb() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("db");
+        modelAndView.addObject("message", "DB drop requested");
+        return modelAndView;
+    }
 }

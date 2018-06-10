@@ -35,13 +35,11 @@
 
         <property name="jpaProperties">
             <props>
-                <!--<prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL94Dialect</prop>-->
-                <prop key="hibernate.dialect">${spring.jpa.properties.hibernate.dialect}</prop>
-                <!--<prop key="hibernate.temp.use_jdbc_metadata_defaults">false</prop>-->
-                <prop key="hibernate.show_sql">${spring.jpa.show-sql}</prop>
-                <prop key="hibernate.format_sql">${spring.jpa.format-sql}</prop>
-                <prop key="hibernate.use-sql-comments">${spring.jpa.use_sql_comments}</prop>
-                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+                <prop key="hibernate.use-sql-comments">${hibernate.use-sql-comments}</prop>
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
             </props>
         </property>
     </bean>
