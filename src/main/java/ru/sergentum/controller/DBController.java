@@ -18,7 +18,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 @Controller
-public class InitDBController {
+public class DBController {
 
     @Autowired
     private UserService userService;
@@ -67,23 +67,31 @@ public class InitDBController {
         user.setActive(1);
         user.setBalance(100);
         user.setRoles(roles);
-        if (userService.findUserByEmail(user.getEmail()) == null) {
+        System.out.println("User BEFORE saving " + user);
+        User dbuser = userService.findUserByEmail(user.getEmail());
+        if (dbuser == null) {
+            System.out.println("user not found, insert new one " + user);
             userService.saveUser(user);
+        } else {
+            System.out.println("user found in db " + dbuser);
         }
-        user = userService.findUserByEmail(user.getEmail());
+
 
         //write transaction to db if needed
+        dbuser = userService.findUserByEmail(user.getEmail());
+        System.out.println("User AFTER saving " + dbuser);
         Transaction transaction = new Transaction();
         transaction.setAmount(1234);
-        transaction.setUser(user);
+        transaction.setUser(dbuser);
         transaction.setPayee(payee);
         transactionRepository.save(transaction);
 
-        for (Transaction trans : user.getTransactions()) {
+        for (Transaction trans : dbuser.getTransactions()) {
             System.out.println(trans);
         }
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("initdb");
+        modelAndView.setViewName("message");
+        modelAndView.addObject("message", "DB init requested");
         return modelAndView;
     }
 

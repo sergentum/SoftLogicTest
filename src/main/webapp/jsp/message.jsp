@@ -12,6 +12,6 @@
     <title>InitDB</title>
 </head>
 <body>
-DB Initialization requested
+    <c:out value="${message}"/>
 </body>
 </html>

@@ -132,16 +132,16 @@ public class User implements UserDetails{
 		this.balance = balance;
 	}
 
-	@Override
-	public String toString() {
-		return "User{" +
-				"email='" + email + '\'' +
-				", password='" + password + '\'' +
-				", name='" + name + '\'' +
-				'}';
-	}
+    @Override
+    public String toString() {
+        return "User{" +
+                "email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", roles=" + roles +
+                '}';
+    }
 
-	// TODO: 2018-06-04 implement methods correctly
+// TODO: 2018-06-04 implement methods correctly
     
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

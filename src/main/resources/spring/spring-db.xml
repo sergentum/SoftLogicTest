@@ -19,8 +19,6 @@
 
     <context:annotation-config/>
 
-    <!--<context:component-scan base-package="**.repository"/>-->
-
     <jpa:repositories base-package="**.repository"/>
 
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
@@ -47,10 +45,5 @@
             </props>
         </property>
     </bean>
-
-    <beans>
-        <!--<context:component-scan base-package="**.repository"/>-->
-
-    </beans>
 
 </beans>
