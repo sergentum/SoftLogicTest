@@ -19,7 +19,7 @@ import java.util.Set;
 public class UserServiceImpl implements UserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
-    private static int startBalance = 100;
+    private static final int START_BALANCE = 100;
 
 	@Autowired
 	private UserRepository userRepository;
@@ -35,14 +35,20 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findUserByUsername(s);
 	}
 
+    @Override
+    public User loadUserByEmail(String s) {
+        return userRepository.findUserByEmail(s);
+    }
+
 	public void saveUser(User user) {
+        logger.debug("Register user: {}", user);
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
-        if (user.getRoles().isEmpty()) {
+        if (user.getRoles() == null || user.getRoles().isEmpty()) {
             Set<Role> roles = new HashSet<>(Arrays.asList(roleRepository.findByRole("USER")));
             user.setRoles(roles);
         }
-		user.setBalance(startBalance);
+		user.setBalance(START_BALANCE);
 		userRepository.save(user);
 		logger.debug("User {} saved", user);
 	}

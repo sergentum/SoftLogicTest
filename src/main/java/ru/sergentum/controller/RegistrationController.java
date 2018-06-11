@@ -43,18 +43,23 @@ public class RegistrationController {
                             "There is already a user registered with the phone provided");
             logger.warn("User already exist {}", userExists);
         }
-        if (!user.getPassword().equals(user.getPasswordConfirm())){
+        if (!user.getPassword().equals(user.getPasswordConfirm())) {
             bindingResult
                     .rejectValue("passwordConfirm",
                             "error.user",
                             "Passwords should be the same");
         }
+
+        if (!user.getEmail().isEmpty() && userService.loadUserByEmail(user.getEmail()) != null) {
+            bindingResult.rejectValue("email", "error.username", "Email already registered!");
+        }
+
         if (bindingResult.hasErrors()) {
             logger.warn("binding errors occurs {}", bindingResult);
             modelAndView.setViewName("registration");
 
         } else {
-            logger.debug("Saving user: {}", user);
+            logger.debug("Register user: {}", user);
             logger.warn("binding result: {}", bindingResult);
             userService.saveUser(user);
             modelAndView.addObject("message", "User has been registered successfully");

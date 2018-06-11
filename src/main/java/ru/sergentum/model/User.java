@@ -42,7 +42,7 @@ public class User implements UserDetails {
         this.passwordConfirm = passwordConfirm;
     }
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     @Email(message = "*Please provide a valid Email")
     @NotEmpty(message = "*Please provide an email")
     private String email;
@@ -111,12 +111,16 @@ public class User implements UserDetails {
     @Override
     public String toString() {
         return "User{" +
-                "username='" + username + '\'' +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", passwordConfirm='" + passwordConfirm + '\'' +
                 ", email='" + email + '\'' +
                 ", balance=" + balance +
+                ", roles=" + roles +
+                ", transactions=" + transactions +
                 '}';
     }
-
 
 // TODO: 2018-06-04 implement methods correctly
 

@@ -7,4 +7,6 @@ import ru.sergentum.model.User;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     User findUserByUsername(String s);
+
+    User findUserByEmail(String s);
 }

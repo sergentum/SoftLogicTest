@@ -61,7 +61,7 @@ public class DBController {
         User user = new User();
         user.setEmail("asd@asd.asd");
         user.setPassword("123123");
-        user.setUsername("0123456789");
+        user.setUsername("01234567890");
         user.setRoles(rolesDb);
         User dbuser = (User) userService.loadUserByUsername(user.getUsername());
         if (dbuser == null) {
