@@ -6,7 +6,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import java.util.Collection;
@@ -15,46 +14,47 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User implements UserDetails{
+public class User implements UserDetails {
 
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "user_id")
-	private int id;
+    @Column(name = "user_id")
+    private int id;
 
-	@Column(name = "email")
-	@Email(message = "*Please provide a valid Email")
-	@NotEmpty(message = "*Please provide an email")
-	private String email;
+    @Pattern(regexp = "(^$|[0-9]{11})")
+    @NotEmpty
+    @Column(unique = true)
+    private String username;
 
-    @Pattern(regexp="(^$|[0-9]{10})")
-    private String phone;
+    @Column(name = "password")
+    @Length(min = 3, message = "*Your password must have at least 5 characters")
+    @NotEmpty(message = "*Please provide your password")
+    private String password;
 
-	@Column(name = "password")
-	@Length(min = 3, message = "*Your password must have at least 5 characters")
-	@NotEmpty(message = "*Please provide your password")
-//	@Transient
-	private String password;
+    @Transient
+    private String passwordConfirm;
 
-	@Column(name = "name")
-	@NotEmpty(message = "*Please provide your name")
-	private String name;
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
 
-	@Column(name = "last_name")
-	@NotEmpty(message = "*Please provide your last name")
-	private String lastName;
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
+    }
 
-	@Column(name = "active")
-	private int active;
+    @Column(name = "email")
+    @Email(message = "*Please provide a valid Email")
+    @NotEmpty(message = "*Please provide an email")
+    private String email;
 
-	@Column(name = "balance")
-	private int balance;
+    @Column(name = "balance")
+    private int balance;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinTable(name = "user_role",
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private Set<Role> roles;
+    private Set<Role> roles;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     private Set<Transaction> transactions;
@@ -69,111 +69,92 @@ public class User implements UserDetails{
     }
 
     public int getId() {
-		return id;
-	}
+        return id;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public String getLastName() {
-		return lastName;
-	}
+    public Set<Role> getRoles() {
+        return roles;
+    }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public int getBalance() {
+        return balance;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public int getActive() {
-		return active;
-	}
-
-	public void setActive(int active) {
-		this.active = active;
-	}
-
-	public Set<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
-
-	public int getBalance() {
-		return balance;
-	}
-
-	public void setBalance(int balance) {
-		this.balance = balance;
-	}
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
 
     @Override
     public String toString() {
         return "User{" +
-                "email='" + email + '\'' +
-                ", name='" + name + '\'' +
-                ", roles=" + roles +
+                "username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", balance=" + balance +
                 '}';
     }
 
+
 // TODO: 2018-06-04 implement methods correctly
-    
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		HashSet<GrantedAuthority> authorities = new HashSet<>();
-		for (Role role:getRoles()) {
-			authorities.add((GrantedAuthority) role::getRole);
-		}
-		return authorities;
-	}
 
-	@Override
-	public String getUsername() {
-		return getEmail();
-	}
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        HashSet<GrantedAuthority> authorities = new HashSet<>();
+        for (Role role : getRoles()) {
+            authorities.add((GrantedAuthority) role::getRole);
+        }
+        return authorities;
+    }
 
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	@Override
-	public boolean isAccountNonLocked() {
-		return true;
-	}
+    @Override
+    public String getUsername() {
+        return username;
+    }
 
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
 
-	@Override
-	public boolean isEnabled() {
-		return true;
-	}
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

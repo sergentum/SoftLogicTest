@@ -1,5 +1,7 @@
 package ru.sergentum.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -16,6 +18,7 @@ public class RegistrationController {
     @Autowired
     private UserService userService;
 
+    private static final Logger logger = LoggerFactory.getLogger(RegistrationController.class);
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public ModelAndView registration() {
@@ -28,23 +31,37 @@ public class RegistrationController {
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult) {
+        logger.debug("Got user to register: {}", user);
+
         ModelAndView modelAndView = new ModelAndView();
-        User userExists = userService.findUserByEmail(user.getEmail());
+        User userExists = (User) userService.loadUserByUsername(user.getUsername());
+
         if (userExists != null) {
             bindingResult
-                    .rejectValue("email", "error.user",
-                            "There is already a user registered with the email provided");
+                    .rejectValue("username",
+                            "error.user",
+                            "There is already a user registered with the phone provided");
+            logger.warn("User already exist {}", userExists);
+        }
+        if (!user.getPassword().equals(user.getPasswordConfirm())){
+            bindingResult
+                    .rejectValue("passwordConfirm",
+                            "error.user",
+                            "Passwords should be the same");
         }
         if (bindingResult.hasErrors()) {
+            logger.warn("binding errors occurs {}", bindingResult);
             modelAndView.setViewName("registration");
+
         } else {
+            logger.debug("Saving user: {}", user);
+            logger.warn("binding result: {}", bindingResult);
             userService.saveUser(user);
-            modelAndView.addObject("successMessage", "User has been registered successfully");
+            modelAndView.addObject("message", "User has been registered successfully");
             modelAndView.addObject("user", new User());
-            modelAndView.setViewName("registration");
+            modelAndView.setViewName("redirect:/app/");
 
         }
         return modelAndView;
     }
-
 }

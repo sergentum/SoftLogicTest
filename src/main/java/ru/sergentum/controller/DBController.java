@@ -61,18 +61,15 @@ public class DBController {
         User user = new User();
         user.setEmail("asd@asd.asd");
         user.setPassword("123123");
-        user.setName("Sergey");
-        user.setLastName("Vorozhtsov");
-        user.setActive(1);
-        user.setBalance(100);
+        user.setUsername("0123456789");
         user.setRoles(rolesDb);
-        User dbuser = userService.findUserByEmail(user.getEmail());
+        User dbuser = (User) userService.loadUserByUsername(user.getUsername());
         if (dbuser == null) {
             userService.saveUser(user);
         }
 
         //write transaction to db if needed
-        dbuser = userService.findUserByEmail(user.getEmail());
+        dbuser = (User) userService.loadUserByUsername(user.getUsername());
 
         Transaction transaction = new Transaction();
         transaction.setAmount(1234);

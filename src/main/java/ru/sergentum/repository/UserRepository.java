@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import ru.sergentum.model.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-	 User findByEmail(String email);
 
+    User findUserByUsername(String s);
 }
