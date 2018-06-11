@@ -19,6 +19,13 @@
               p:password="${spring.datasource.password}"
         />
 
+    </beans>
+
+    <beans profile="hsqldb">
+
+    </beans>
+
+    <beans profile="postgres, hsqldb">
         <context:annotation-config/>
 
         <jpa:repositories base-package="**.repository"/>
@@ -37,7 +44,6 @@
 
             <property name="jpaProperties">
                 <props>
-                    <prop key="hibernate.dialect">${hibernate.dialect}</prop>
                     <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
                     <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
                     <prop key="hibernate.use-sql-comments">${hibernate.use-sql-comments}</prop>
@@ -47,5 +53,4 @@
         </bean>
 
     </beans>
-
 </beans>
