@@ -88,6 +88,8 @@ public class DBController {
 
     @RequestMapping(value = {"/dropdb"}, method = RequestMethod.GET)
     private ModelAndView dropdb() {
+        // TODO: 2018-06-10 implement db drop
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("db");
         modelAndView.addObject("message", "DB drop requested");

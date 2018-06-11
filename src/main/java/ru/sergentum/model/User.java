@@ -145,7 +145,7 @@ public class User implements UserDetails{
     
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		HashSet authorities = new HashSet();
+		HashSet<GrantedAuthority> authorities = new HashSet<>();
 		for (Role role:getRoles()) {
 			authorities.add((GrantedAuthority) role::getRole);
 		}
