@@ -32,6 +32,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDetails loadUserByUsername(String s) {
+	    logger.debug("loadUserByUsername {}", s);
 		return userRepository.findUserByUsername(s);
 	}
 

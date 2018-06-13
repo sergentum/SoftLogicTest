@@ -9,7 +9,7 @@
 
     <beans profile="postgres">
 
-        <context:property-placeholder location="classpath:db/postgres.properties" system-properties-mode="OVERRIDE"/>
+        <context:property-placeholder location="classpath:db/db.properties" system-properties-mode="OVERRIDE"/>
 
         <bean id="dataSource"
               class="org.springframework.jdbc.datasource.DriverManagerDataSource"
