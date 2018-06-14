@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -57,13 +58,13 @@ public class User implements UserDetails {
     private Set<Role> roles;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-    private Set<Transaction> transactions;
+    private List<Transaction> transactions;
 
-    public void setTransactions(Set<Transaction> transactions) {
+    public void setTransactions(List<Transaction> transactions) {
         this.transactions = transactions;
     }
 
-    public Set<Transaction> getTransactions() {
+    public List<Transaction> getTransactions() {
 
         return transactions;
     }

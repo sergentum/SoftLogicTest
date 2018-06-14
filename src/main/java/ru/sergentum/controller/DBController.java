@@ -9,9 +9,9 @@ import ru.sergentum.model.Payee;
 import ru.sergentum.model.Role;
 import ru.sergentum.model.Transaction;
 import ru.sergentum.model.User;
-import ru.sergentum.repository.PayeeRepository;
-import ru.sergentum.repository.RoleRepository;
-import ru.sergentum.repository.TransactionRepository;
+import ru.sergentum.repository.datajpa.PayeeRepository;
+import ru.sergentum.repository.datajpa.RoleRepository;
+import ru.sergentum.repository.datajpa.CrudTransactionRepository;
 import ru.sergentum.service.UserService;
 
 import java.util.Arrays;
@@ -30,7 +30,7 @@ public class DBController {
     private PayeeRepository payeeRepository;
 
     @Autowired
-    private TransactionRepository transactionRepository;
+    private CrudTransactionRepository transactionRepository;
 
     @RequestMapping(value = {"/initdb"}, method = RequestMethod.GET)
     private ModelAndView initdb() {

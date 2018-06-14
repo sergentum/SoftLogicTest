@@ -2,11 +2,11 @@ package ru.sergentum.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 import ru.sergentum.model.Payee;
 import ru.sergentum.model.Transaction;
 import ru.sergentum.model.User;
-import ru.sergentum.repository.TransactionRepository;
+import ru.sergentum.repository.datajpa.PayeeRepository;
+import ru.sergentum.repository.jpa.TransactionRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -17,26 +17,38 @@ public class TransactionServiceImpl implements TransactionService {
     @Autowired
     TransactionRepository transactionRepository;
 
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    PayeeRepository payeeRepository;
+
     @Override
     @Transactional
-    public Transaction doTransaction(User user, Payee payee, Integer amount) {
-
+    public Transaction doTransaction(String userName, String payeeName, Integer amount) {
 
         Transaction transaction = new Transaction();
 
+        User user = (User) userService.loadUserByUsername(userName);
+
         transaction.setUser(user);
+
+        Payee payee = payeeRepository.findByName(payeeName);
 
         transaction.setPayee(payee);
 
         transaction.setAmount(amount);
 
-        user.setBalance(user.getBalance() - amount);
+        userService.changeBalance(userName, -amount);
 
-        return null;
+        transactionRepository.save(transaction);
+
+        return transaction;
     }
 
     @Override
     public List<Transaction> getTransactionList(User user) {
-        return null;
+
+        return transactionRepository.getAll(user.getId());
     }
 }

@@ -6,9 +6,8 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import ru.sergentum.model.Payee;
-import ru.sergentum.model.User;
+import ru.sergentum.repository.datajpa.PayeeRepository;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
@@ -16,7 +15,6 @@ import javax.transaction.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("postgres")
 @ContextConfiguration({
-//        "classpath:spring/spring-app.xml",
         "classpath:spring/spring-db.xml"
 })
 @Transactional

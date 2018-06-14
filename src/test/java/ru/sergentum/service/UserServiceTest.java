@@ -7,18 +7,12 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import ru.sergentum.model.Payee;
 import ru.sergentum.model.Role;
 import ru.sergentum.model.User;
-import ru.sergentum.repository.PayeeRepository;
-import ru.sergentum.repository.RoleRepository;
-import ru.sergentum.repository.UserRepository;
+import ru.sergentum.repository.datajpa.RoleRepository;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("postgres")

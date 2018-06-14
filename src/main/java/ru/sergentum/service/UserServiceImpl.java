@@ -7,10 +7,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.sergentum.model.Role;
+import ru.sergentum.model.Transaction;
 import ru.sergentum.model.User;
-import ru.sergentum.repository.RoleRepository;
-import ru.sergentum.repository.UserRepository;
+import ru.sergentum.repository.datajpa.RoleRepository;
+import ru.sergentum.repository.datajpa.UserRepository;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,16 +23,20 @@ public class UserServiceImpl implements UserService {
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
     private static final int START_BALANCE = 100;
 
-	@Autowired
 	private UserRepository userRepository;
 
-	@Autowired
     private RoleRepository roleRepository;
 
-    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-	@Override
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
+
+    @Override
 	public UserDetails loadUserByUsername(String s) {
 	    logger.debug("loadUserByUsername {}", s);
 		return userRepository.findUserByUsername(s);
@@ -50,7 +56,18 @@ public class UserServiceImpl implements UserService {
             user.setRoles(roles);
         }
 		user.setBalance(START_BALANCE);
+
+        user.setTransactions(new ArrayList<Transaction>());
+
 		userRepository.save(user);
-		logger.debug("User {} saved", user);
+		logger.debug("User saved: {}", user);
 	}
+
+    @Override
+    public void changeBalance(String s, Integer i) {
+        User user = (User) loadUserByUsername(s);
+        logger.debug("User {} old balance: {}", s, user.getBalance());
+        user.setBalance(user.getBalance() + i);
+        logger.debug("User {} new balance: {}", s, user.getBalance());
+    }
 }
