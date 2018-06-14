@@ -19,7 +19,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     @Transactional
-    public boolean doTransaction(User user, Payee payee, Integer amount) {
+    public Transaction doTransaction(User user, Payee payee, Integer amount) {
 
 
         Transaction transaction = new Transaction();
@@ -32,7 +32,7 @@ public class TransactionServiceImpl implements TransactionService {
 
         user.setBalance(user.getBalance() - amount);
 
-        return false;
+        return null;
     }
 
     @Override

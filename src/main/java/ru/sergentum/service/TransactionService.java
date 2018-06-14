@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface TransactionService {
 
-    boolean doTransaction(User user, Payee payee, Integer amount);
+    Transaction doTransaction(User user, Payee payee, Integer amount);
 
     List<Transaction> getTransactionList(User user);
 }
