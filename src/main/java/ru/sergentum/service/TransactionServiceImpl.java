@@ -15,14 +15,18 @@ import java.util.List;
 @Service
 public class TransactionServiceImpl implements TransactionService {
 
-    @Autowired
-    TransactionRepository transactionRepository;
+    private TransactionRepository transactionRepository;
+
+    private UserService userService;
+
+    private PayeeRepository payeeRepository;
 
     @Autowired
-    UserService userService;
-
-    @Autowired
-    PayeeRepository payeeRepository;
+    public TransactionServiceImpl(TransactionRepository transactionRepository, UserService userService, PayeeRepository payeeRepository) {
+        this.transactionRepository = transactionRepository;
+        this.userService = userService;
+        this.payeeRepository = payeeRepository;
+    }
 
     @Override
     @Transactional
@@ -31,15 +35,12 @@ public class TransactionServiceImpl implements TransactionService {
         Transaction transaction = new Transaction();
 
         User user = (User) userService.loadUserByUsername(userName);
-
         transaction.setUser(user);
 
         Payee payee = payeeRepository.findByName(payeeName);
-
         transaction.setPayee(payee);
 
         transaction.setAmount(amount);
-
         transaction.setTimestamp(new Date());
 
         userService.changeBalance(userName, -amount);
