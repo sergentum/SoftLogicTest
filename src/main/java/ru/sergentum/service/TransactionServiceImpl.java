@@ -9,6 +9,7 @@ import ru.sergentum.repository.datajpa.PayeeRepository;
 import ru.sergentum.repository.jpa.TransactionRepository;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -38,6 +39,8 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setPayee(payee);
 
         transaction.setAmount(amount);
+
+        transaction.setTimestamp(new Date());
 
         userService.changeBalance(userName, -amount);
 

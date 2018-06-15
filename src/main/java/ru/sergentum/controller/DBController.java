@@ -12,6 +12,7 @@ import ru.sergentum.model.User;
 import ru.sergentum.repository.datajpa.PayeeRepository;
 import ru.sergentum.repository.datajpa.RoleRepository;
 import ru.sergentum.repository.datajpa.CrudTransactionRepository;
+import ru.sergentum.service.TransactionService;
 import ru.sergentum.service.UserService;
 
 import java.util.Arrays;
@@ -29,8 +30,9 @@ public class DBController {
     @Autowired
     private PayeeRepository payeeRepository;
 
+
     @Autowired
-    private CrudTransactionRepository transactionRepository;
+    private TransactionService transactionService;
 
     @RequestMapping(value = {"/initdb"}, method = RequestMethod.GET)
     private ModelAndView initdb() {
@@ -71,11 +73,11 @@ public class DBController {
         //write transaction to db if needed
         dbuser = (User) userService.loadUserByUsername(user.getUsername());
 
-        Transaction transaction = new Transaction();
-        transaction.setAmount(1234);
-        transaction.setUser(dbuser);
-        transaction.setPayee(payee);
-        transactionRepository.save(transaction);
+        transactionService.doTransaction(dbuser.getUsername(), payee.getName(), 1);
+
+        for (Transaction trans:transactionService.getTransactionList(dbuser)) {
+            System.out.println(trans);
+        }
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("db");

@@ -50,6 +50,7 @@
                     <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
                     <prop key="hibernate.use-sql-comments">${hibernate.use-sql-comments}</prop>
                     <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+                    <prop key="hibernate.jdbc.time_zone">${hibernate.jdbc.time_zone}</prop>
                 </props>
             </property>
         </bean>

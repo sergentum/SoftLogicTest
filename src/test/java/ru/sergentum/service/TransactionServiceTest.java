@@ -9,6 +9,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import ru.sergentum.model.Payee;
 import ru.sergentum.model.Role;
+import ru.sergentum.model.Transaction;
 import ru.sergentum.model.User;
 import ru.sergentum.repository.datajpa.PayeeRepository;
 import ru.sergentum.repository.datajpa.RoleRepository;
@@ -53,9 +54,14 @@ public class TransactionServiceTest {
         userService.saveUser(user);
 
         transactionService.doTransaction(user.getUsername(), payee.getName(), 1);
-
+        transactionService.doTransaction(user.getUsername(), payee.getName(), 2);
+        transactionService.doTransaction(user.getUsername(), payee.getName(), 3);
 
         Assert.assertFalse(transactionService.getTransactionList(user).isEmpty());
+        Assert.assertTrue(transactionService.getTransactionList(user).size() == 3);
 
+        for (Transaction transaction:transactionService.getTransactionList(user)) {
+            System.out.println(transaction);
+        }
     }
 }

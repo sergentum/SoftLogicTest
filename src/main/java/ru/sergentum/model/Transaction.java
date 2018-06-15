@@ -1,6 +1,7 @@
 package ru.sergentum.model;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Transaction {
@@ -20,6 +21,10 @@ public class Transaction {
 
     private int amount;
 
+    @Column(name = "timestamp")
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date timestamp;
+
     public void setUser(User user) {
         this.user = user;
     }
@@ -33,7 +38,6 @@ public class Transaction {
     }
 
     public User getUser() {
-
         return user;
     }
 
@@ -45,13 +49,26 @@ public class Transaction {
         return amount;
     }
 
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public int getId() {
+        return id;
+    }
+
     @Override
     public String toString() {
         return "Transaction{" +
                 "id=" + id +
-                ", user=" + user +
-                ", payee=" + payee +
+                ", user=" + user.getUsername() +
+                ", payee=" + payee.getName() +
                 ", amount=" + amount +
+                ", timestamp=" + timestamp +
                 '}';
     }
 }

@@ -1,6 +1,5 @@
 package ru.sergentum.service;
 
-import ru.sergentum.model.Payee;
 import ru.sergentum.model.Transaction;
 import ru.sergentum.model.User;
 
