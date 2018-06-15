@@ -1,5 +1,7 @@
 package ru.sergentum.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -20,6 +22,9 @@ public class Transaction {
     private Payee payee;
 
     private int amount;
+
+    @NotEmpty
+    private String invoice;
 
     @Column(name = "timestamp")
     @Temporal(TemporalType.TIMESTAMP)
@@ -59,6 +64,14 @@ public class Transaction {
 
     public int getId() {
         return id;
+    }
+
+    public String getInvoice() {
+        return invoice;
+    }
+
+    public void setInvoice(String invoice) {
+        this.invoice = invoice;
     }
 
     @Override
