@@ -41,11 +41,13 @@
 
             <tr>
                 <td>
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">
+                        Submit
+                    </button>
                 </td>
                 <td>
                     <a class="btn btn-lg btn-danger pull-right" href="../app/" role="button">
-                    Return
+                        Cancel
                     </a>
                 </td>
             </tr>
