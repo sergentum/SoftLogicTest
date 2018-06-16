@@ -33,22 +33,41 @@
 <body>
 <div class="container">
     <sec:authorize access="!isAuthenticated()">
-
-        <p><a class="btn btn-lg btn-success" href="<c:url value="/login" />" role="button">Войти</a></p>
-
-    </sec:authorize>
-    <sec:authorize access="isAuthenticated()">
-        <table>
+        <table class="table">
             <tr>
                 <td>
+                    <a class="btn btn-sm btn-primary" href="<c:url value="/" />" role="button">
+                        AppName
+                    </a>
+                </td>
+                <td>
+                    <a class="btn btn-sm btn-success pull-right" href="<c:url value="/login" />" role="button">
+                        Authorize
+                    </a>
+                </td>
+            </tr>
+        </table>
+
+
+    </sec:authorize>
+
+    <sec:authorize access="isAuthenticated()">
+        <table class="table">
+            <tr>
+                <td>
+                    <a class="btn btn-sm btn-success" href="<c:url value="/" />" role="button">
+                        AppName
+                    </a>
+                </td>
+                <td>
                     Your login:
-                    <a class="btn btn-lg btn-primary" href="<c:url value="../app/" />" role="button">
+                    <a class="btn btn-sm btn-primary" href="<c:url value="../app/" />" role="button">
                         <sec:authentication property="principal.username"/>
                     </a>
                 </td>
                 <td>
-                    <a class="btn btn-lg btn-danger" href="<c:url value="/logout" />" role="button">
-                        Выйти
+                    <a class="btn btn-sm btn-danger pull-right" href="<c:url value="/logout" />" role="button">
+                        Log out
                     </a>
                 </td>
             </tr>

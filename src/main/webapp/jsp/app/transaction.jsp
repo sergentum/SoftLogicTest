@@ -3,7 +3,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 
-<jsp:include page="../include/header.jsp" />
+<jsp:include page="../include/header.jsp"/>
 
 <body>
 
@@ -12,7 +12,7 @@
     <form:form method="POST" action="/app/transaction">
         <h2 class="form-signin-heading">Create new transaction</h2>
 
-        <table>
+        <table class="table">
             <tr>
                 <th>Payee</th>
                 <th>Invoice</th>
@@ -20,9 +20,9 @@
             </tr>
             <tr>
                 <td>
-                    <%--<input type="text" name="payeeName" value=""/>--%>
+                        <%--<input type="text" name="payeeName" value=""/>--%>
 
-                    <select label="Party List" array="payeeList" name="payeeName">
+                    <select name="payeeName">
                         <c:forEach var="payee" items="${payeeList}">
                             <option value="${payee.name}">
                                 <c:out value="${payee.name}"/>
@@ -42,16 +42,21 @@
                 <td>
                     <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
                 </td>
+                <td>
+
+                </td>
+                <td>
+                    <a class="btn btn-lg btn-danger pull-right" href="../app/" role="button">
+                    Return
+                    </a>
+                </td>
             </tr>
-
-
-
 
 
         </table>
     </form:form>
 
 </div>
-<jsp:include page="../include/footer.jsp" />
+<jsp:include page="../include/footer.jsp"/>
 </body>
 </html>
