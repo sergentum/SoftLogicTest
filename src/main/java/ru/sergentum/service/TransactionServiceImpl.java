@@ -55,6 +55,11 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    public void save(Transaction transaction) {
+        transactionRepository.save(transaction);
+    }
+
+    @Override
     public List<Transaction> getTransactionList(User user) {
 
         return transactionRepository.getAll(user.getId());

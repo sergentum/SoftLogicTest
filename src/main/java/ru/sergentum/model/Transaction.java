@@ -3,6 +3,7 @@ package ru.sergentum.model;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
@@ -17,10 +18,13 @@ public class Transaction {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @NotNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "payee_id")
     private Payee payee;
 
+    // TODO: 2018-06-16 uncomment when jsp ready
+//    @NotEmpty
     private int amount;
 
     @NotEmpty
@@ -28,7 +32,7 @@ public class Transaction {
 
     @Column(name = "timestamp")
     @Temporal(TemporalType.TIMESTAMP)
-    public Date timestamp;
+    private Date timestamp;
 
     public void setUser(User user) {
         this.user = user;
@@ -78,8 +82,9 @@ public class Transaction {
     public String toString() {
         return "Transaction{" +
                 "id=" + id +
-                ", user=" + user.getUsername() +
-                ", payee=" + payee.getName() +
+                ", user=" + (user != null ? user : "null") +
+                ", payee=" + (payee != null ? payee : "null")  +
+                ", invoice=" + invoice +
                 ", amount=" + amount +
                 ", timestamp=" + timestamp +
                 '}';
