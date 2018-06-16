@@ -12,17 +12,11 @@
     <form:form method="POST" action="/app/transaction">
         <h2 class="form-signin-heading">Create new transaction</h2>
 
-        <table class="table">
+        <table class="table" style="width: available;">
             <tr>
                 <th>Payee</th>
-                <th>Invoice</th>
-                <th>Amount</th>
-            </tr>
-            <tr>
                 <td>
-                        <%--<input type="text" name="payeeName" value=""/>--%>
-
-                    <select name="payeeName">
+                    <select class="pull-right" name="payeeName">
                         <c:forEach var="payee" items="${payeeList}">
                             <option value="${payee.name}">
                                 <c:out value="${payee.name}"/>
@@ -30,20 +24,24 @@
                         </c:forEach>
                     </select>
                 </td>
+            </tr>
+            <tr>
+                <th>Invoice</th>
                 <td>
-                    <input type="text" id="txtPassword" name="invoice" value=""/>
+                    <input class="pull-right" type="text" name="invoice" value=""/>
                 </td>
+
+            </tr>
+            <tr>
+                <th>Amount</th>
                 <td>
-                    <input type="text" id="txtPhone" name="amount" value=""/>
+                    <input class="pull-right" type="text" id="txtPhone" name="amount" value=""/>
                 </td>
             </tr>
 
             <tr>
                 <td>
                     <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
-                </td>
-                <td>
-
                 </td>
                 <td>
                     <a class="btn btn-lg btn-danger pull-right" href="../app/" role="button">
