@@ -48,10 +48,7 @@ public class TransactionServiceImpl implements TransactionService {
         // TODO: 2018-06-15 check balance before proceed
 
         userService.changeBalance(userName, -amount);
-        userService.updateUser(user);
 
-        // TODO: 2018-06-16 balance doesnt change 
-        
         transactionRepository.save(transaction);
 
         return transaction;

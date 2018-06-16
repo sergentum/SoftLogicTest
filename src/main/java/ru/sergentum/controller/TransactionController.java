@@ -27,16 +27,13 @@ public class TransactionController {
 
     private PayeeRepository payeeRepository;
 
-    private UserService userService;
-
     private TransactionService transactionService;
 
     Logger logger = LoggerFactory.getLogger(TransactionController.class);
 
     @Autowired
-    public TransactionController(PayeeRepository payeeRepository, UserService userService, TransactionService transactionService) {
+    public TransactionController(PayeeRepository payeeRepository, TransactionService transactionService) {
         this.payeeRepository = payeeRepository;
-        this.userService = userService;
         this.transactionService = transactionService;
     }
 
@@ -66,11 +63,13 @@ public class TransactionController {
         String userName = auth.getName();
 
         transactionService.doTransaction(userName, payeeName, amount, invoice);
-        // TODO: 2018-06-15 check error and return success page or get back and highlight errors 
-        
+        // TODO: 2018-06-15 check error and return success page or get back and highlight errors
+
         modelAndView.setViewName("app/transaction");
         return modelAndView;
     }
+
+
 
 
     @RequestMapping(value = "/app/transactionSuccess", method = RequestMethod.GET)

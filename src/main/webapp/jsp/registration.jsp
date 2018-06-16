@@ -8,7 +8,7 @@
 
 <body>
 
-<div class="container">
+<div class="container" style="width: 400px;">
 
     <form:form method="POST" modelAttribute="user" class="form-signin">
         <h2 class="form-signin-heading">Create your account</h2>

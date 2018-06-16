@@ -41,8 +41,13 @@
                     </a>
                 </td>
                 <td>
+                    <a class="btn btn-sm btn-success pull-right" href="<c:url value="/registration" />" role="button">
+                        Register
+                    </a>
+                <%--</td>--%>
+                <%--<td>--%>
                     <a class="btn btn-sm btn-success pull-right" href="<c:url value="/login" />" role="button">
-                        Authorize
+                        Login
                     </a>
                 </td>
             </tr>

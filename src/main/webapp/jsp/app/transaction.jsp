@@ -35,7 +35,7 @@
             <tr>
                 <th>Amount</th>
                 <td>
-                    <input class="pull-right" type="text" id="txtPhone" name="amount" value=""/>
+                    <input class="pull-right" type="text" name="amount" value=""/>
                 </td>
             </tr>
 

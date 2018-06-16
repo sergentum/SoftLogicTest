@@ -120,7 +120,6 @@ public class User implements UserDetails {
                 ", email='" + email + '\'' +
                 ", balance=" + balance +
                 ", roles=" + roles +
-                ", transactions=" + transactions +
                 '}';
     }
 

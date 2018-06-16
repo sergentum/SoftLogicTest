@@ -23,7 +23,7 @@
     <logger name="ru.sergentum" level="debug"/>
     <logger name="org.springframework.web.servlet" level="warn"/>
     <!--<logger name="org.springframework.security" level="debug"/>-->
-    <logger name="org.hibernate.type" level="ALL" />
+    <!--<logger name="org.hibernate.type" level="ALL" />-->
 
     <root level="info">
         <!--<appender-ref ref="file"/>-->

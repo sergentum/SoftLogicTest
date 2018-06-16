@@ -7,14 +7,24 @@
 
 <body>
 
-<div class="container" style="width: 300px;">
+<div class="container" style="width: 400px;">
     <c:url value="/spring_security_check" var="loginUrl"/>
     <form action="${loginUrl}" method="post">
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <input type="text" class="form-control" name="j_login" placeholder="Email address" required autofocus
-               value="01234567890">
-        <input type="password" class="form-control" name="j_password" placeholder="Password" required value="123123">
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Log me in</button>
+        <div class="form-group">
+            <h2 class="form-signin-heading">Please sign in</h2>
+        </div>
+
+        <div class="form-group">
+            <input type="text" class="form-control" name="j_login" placeholder="Email address" required autofocus
+                   value="01234567890">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" name="j_password" placeholder="Password" required
+                   value="123123">
+        </div>
+        <div class="form-group">
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Log me in</button>
+        </div>
     </form>
 
     <c:if test="${param.auth eq 'failure'}">

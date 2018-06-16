@@ -77,5 +77,6 @@ public class UserServiceImpl implements UserService {
         logger.debug("User {} old balance: {}", s, user.getBalance());
         user.setBalance(user.getBalance() + i);
         logger.debug("User {} new balance: {}", s, user.getBalance());
+        updateUser(user);
     }
 }

@@ -1,3 +1,5 @@
+<%@ page import="java.util.Date" %>
+<%@ page import="java.util.TimeZone" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
@@ -26,9 +28,6 @@
         </tr>
     </table>
 
-
-
-
     <table class="table">
         <tr>
             <th>DateTime</th>
@@ -37,8 +36,11 @@
         </tr>
         <c:forEach items="${transactionList}" var="item">
             <tr>
-                    <%--<td>${item.timestamp}</td>--%>
-                <td><fmt:formatDate value="${item.timestamp}" pattern="yyyy-MM-dd hh:mm "/></td>
+                <td>
+                    <%--<fmt:timeZone value="GMT+7">--%>
+                        <fmt:formatDate value="${item.timestamp}" type="both" pattern="yyyy-MM-dd HH:mm "/>
+                    <%--</fmt:timeZone>--%>
+                </td>
                 <td>${item.payee.name}</td>
                 <td>${item.amount}</td>
             </tr>
