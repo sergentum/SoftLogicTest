@@ -31,23 +31,30 @@
     <![endif]-->
 </head>
 <body>
+<div class="container">
+    <sec:authorize access="!isAuthenticated()">
 
-<sec:authorize access="!isAuthenticated()">
+        <p><a class="btn btn-lg btn-success" href="<c:url value="/login" />" role="button">Войти</a></p>
 
-    <p><a class="btn btn-lg btn-success" href="<c:url value="/login" />" role="button">Войти</a></p>
+    </sec:authorize>
+    <sec:authorize access="isAuthenticated()">
+        <table>
+            <tr>
+                <td>
+                    Your login:
+                    <a class="btn btn-lg btn-primary" href="<c:url value="../app/" />" role="button">
+                        <sec:authentication property="principal.username"/>
+                    </a>
+                </td>
+                <td>
+                    <a class="btn btn-lg btn-danger" href="<c:url value="/logout" />" role="button">
+                        Выйти
+                    </a>
+                </td>
+            </tr>
+        </table>
 
-</sec:authorize>
-<sec:authorize access="isAuthenticated()">
-    <table>
-
-    </table>
-    <%--<p>Ваш логин: <sec:authentication property="principal.username" /></p>--%>
-    <a class="btn btn-lg btn-primary" href="<c:url value="../app/" />" role="button">
-        <sec:authentication property="principal.username" />
-    </a>
-    <p><a class="btn btn-lg btn-danger" href="<c:url value="/logout" />" role="button">Выйти</a></p>
-
-</sec:authorize>
-
+    </sec:authorize>
+</div>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 
-<jsp:include page="../header.jsp" />
+<jsp:include page="../include/header.jsp" />
 
 <body>
 
@@ -52,6 +52,6 @@
     </form:form>
 
 </div>
-
+<jsp:include page="../include/footer.jsp" />
 </body>
 </html>

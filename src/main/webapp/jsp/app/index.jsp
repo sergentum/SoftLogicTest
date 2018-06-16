@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 
-<jsp:include page="../header.jsp" />
+<jsp:include page="../include/header.jsp" />
 
 <body>
 
@@ -38,6 +38,6 @@
     <%--</c:if>--%>
 </div>
 
-
+<jsp:include page="../include/footer.jsp" />
 </body>
 </html>

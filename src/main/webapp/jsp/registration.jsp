@@ -11,7 +11,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 
-<jsp:include page="header.jsp" />
+<jsp:include page="include/header.jsp" />
 
 <body>
 
@@ -55,6 +55,6 @@
     </form:form>
 
 </div>
-
+<jsp:include page="include/footer.jsp" />
 </body>
 </html>

@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<jsp:include page="header.jsp" />
+<jsp:include page="include/header.jsp" />
 
 <body>
 
@@ -24,10 +24,10 @@
         </sec:authorize>
     </div>
 
-    <div class="footer">
-        <p>&copy; Devcolibri 2014</p>
-    </div>
+
 
 </div>
+
+<jsp:include page="include/footer.jsp" />
 </body>
 </html>
