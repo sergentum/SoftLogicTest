@@ -68,4 +68,12 @@ public class Payee {
         this.min = min;
         this.max = max;
     }
+
+    @Override
+    public String toString() {
+        return "Payee{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

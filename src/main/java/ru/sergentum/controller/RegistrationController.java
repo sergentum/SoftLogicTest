@@ -61,7 +61,7 @@ public class RegistrationController {
         } else {
             logger.debug("Register user: {}", user);
             logger.warn("binding result: {}", bindingResult);
-            userService.saveUser(user);
+            userService.saveNewUser(user);
             modelAndView.addObject("message", "User has been registered successfully");
             modelAndView.addObject("user", new User());
             modelAndView.setViewName("redirect:/app/");

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.sergentum.model.Role;
 import ru.sergentum.model.Transaction;
 import ru.sergentum.model.User;
@@ -47,7 +48,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findUserByEmail(s);
     }
 
-	public void saveUser(User user) {
+	public void saveNewUser(User user) {
         logger.debug("Register user: {}", user);
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
@@ -64,6 +65,13 @@ public class UserServiceImpl implements UserService {
 	}
 
     @Override
+    public void updateUser(User user) {
+        userRepository.save(user);
+        logger.debug("User updated: {}", user);
+    }
+
+    @Override
+    @Transactional
     public void changeBalance(String s, Integer i) {
         User user = (User) loadUserByUsername(s);
         logger.debug("User {} old balance: {}", s, user.getBalance());

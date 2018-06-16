@@ -11,7 +11,6 @@ import ru.sergentum.model.Transaction;
 import ru.sergentum.model.User;
 import ru.sergentum.repository.datajpa.PayeeRepository;
 import ru.sergentum.repository.datajpa.RoleRepository;
-import ru.sergentum.repository.datajpa.CrudTransactionRepository;
 import ru.sergentum.service.TransactionService;
 import ru.sergentum.service.UserService;
 
@@ -21,18 +20,21 @@ import java.util.HashSet;
 @Controller
 public class DBController {
 
-    @Autowired
     private UserService userService;
 
-    @Autowired
     private RoleRepository roleRepository;
 
-    @Autowired
     private PayeeRepository payeeRepository;
 
+    private TransactionService transactionService;
 
     @Autowired
-    private TransactionService transactionService;
+    public DBController(UserService userService, RoleRepository roleRepository, PayeeRepository payeeRepository, TransactionService transactionService) {
+        this.userService = userService;
+        this.roleRepository = roleRepository;
+        this.payeeRepository = payeeRepository;
+        this.transactionService = transactionService;
+    }
 
     @RequestMapping(value = {"/initdb"}, method = RequestMethod.GET)
     private ModelAndView initdb() {
@@ -67,13 +69,13 @@ public class DBController {
         user.setRoles(rolesDb);
         User dbuser = (User) userService.loadUserByUsername(user.getUsername());
         if (dbuser == null) {
-            userService.saveUser(user);
+            userService.saveNewUser(user);
         }
 
         //write transaction to db if needed
         dbuser = (User) userService.loadUserByUsername(user.getUsername());
 
-        transactionService.doTransaction(dbuser.getUsername(), payee.getName(), 1);
+        transactionService.doTransaction(dbuser.getUsername(), payee.getName(), 1, "000000000000000");
 
         for (Transaction trans:transactionService.getTransactionList(dbuser)) {
             System.out.println(trans);

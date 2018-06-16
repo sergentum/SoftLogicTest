@@ -30,7 +30,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     @Transactional
-    public Transaction doTransaction(String userName, String payeeName, Integer amount) {
+    public Transaction doTransaction(String userName, String payeeName, Integer amount, String invoice) {
 
         Transaction transaction = new Transaction();
 
@@ -42,9 +42,16 @@ public class TransactionServiceImpl implements TransactionService {
 
         transaction.setAmount(amount);
         transaction.setTimestamp(new Date());
+        transaction.setInvoice(invoice);
+
+
+        // TODO: 2018-06-15 check balance before proceed
 
         userService.changeBalance(userName, -amount);
+        userService.updateUser(user);
 
+        // TODO: 2018-06-16 balance doesnt change 
+        
         transactionRepository.save(transaction);
 
         return transaction;

@@ -29,7 +29,7 @@ public class AppController {
     }
 
     @RequestMapping(value = "/app/", method = RequestMethod.GET)
-    public ModelAndView home() {
+    public ModelAndView getHomepage() {
         ModelAndView modelAndView = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = (User) userService.loadUserByUsername(auth.getName());

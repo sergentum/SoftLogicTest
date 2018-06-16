@@ -51,14 +51,17 @@ public class TransactionServiceTest {
         user.setUsername("01234567890");
         user.setPassword("Password");
         user.setEmail("asd@asd.asd");
-        userService.saveUser(user);
+        userService.saveNewUser(user);
 
-        transactionService.doTransaction(user.getUsername(), payee.getName(), 1);
-        transactionService.doTransaction(user.getUsername(), payee.getName(), 2);
-        transactionService.doTransaction(user.getUsername(), payee.getName(), 3);
+        transactionService.doTransaction(user.getUsername(), payee.getName(), 1, "000000000000");
+        transactionService.doTransaction(user.getUsername(), payee.getName(), 2, "000000000000");
+        transactionService.doTransaction(user.getUsername(), payee.getName(), 3, "000000000000");
 
         Assert.assertFalse(transactionService.getTransactionList(user).isEmpty());
         Assert.assertTrue(transactionService.getTransactionList(user).size() == 3);
+
+//        User dbUser = (User) userService.loadUserByUsername(user.getUsername());
+//        Assert.assertEquals(94, dbUser.getBalance());
 
         for (Transaction transaction:transactionService.getTransactionList(user)) {
             System.out.println(transaction);

@@ -40,7 +40,7 @@ public class UserServiceTest {
         user.setPassword("Password");
         user.setEmail("asd@asd.asd");
 
-        userService.saveUser(user);
+        userService.saveNewUser(user);
 
         User user1 = (User) userService.loadUserByUsername(user.getUsername());
         Assert.assertNotNull(user1);
