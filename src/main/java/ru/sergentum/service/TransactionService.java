@@ -9,5 +9,5 @@ public interface TransactionService {
 
     List<Transaction> getTransactionList(User user);
 
-    boolean save(Transaction transaction);
+    void save(Transaction transaction);
 }
