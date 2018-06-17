@@ -42,6 +42,12 @@
             </div>
         </spring:bind>
 
+        <p class="error text-danger text-center">
+            <b>
+                <c:out value="${exception}"/>
+            </b>
+        </p>
+
         <button class="form-group btn btn-lg btn-primary" type="submit">Submit</button>
 
         <button class="form-group btn btn-lg btn-danger pull-right" href="../app/">Cancel</button>

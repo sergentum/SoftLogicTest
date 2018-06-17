@@ -77,7 +77,13 @@ public class DBController {
         //write transaction to db if needed
         dbuser = (User) userService.loadUserByUsername(user.getUsername());
 
-        transactionService.doTransaction(dbuser.getUsername(), payee.getName(), 1, "000000000000000");
+        Transaction transaction = new Transaction();
+        transaction.setUser(dbuser);
+        transaction.setPayee(payee);
+        transaction.setAmount(2);
+        transaction.setInvoice("000000000000000");
+
+        transactionService.save(transaction);
 
         for (Transaction trans:transactionService.getTransactionList(dbuser)) {
             System.out.println(trans);

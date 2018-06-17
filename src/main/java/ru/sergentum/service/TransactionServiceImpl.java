@@ -35,36 +35,31 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     @Transactional
-    public Transaction doTransaction(String userName, String payeeName, Integer amount, String invoice) {
-
-        Transaction transaction = new Transaction();
-
-        User user = (User) userService.loadUserByUsername(userName);
-        transaction.setUser(user);
-
-        Payee payee = payeeRepository.findByName(payeeName);
-        transaction.setPayee(payee);
-
-        transaction.setAmount(amount);
-        transaction.setTimestamp(new Date());
-        transaction.setInvoice(invoice);
-
-
-        // TODO: 2018-06-15 check balance before proceed
-
-        userService.changeBalance(userName, -amount);
-
-        transactionRepository.save(transaction);
-
-        return transaction;
-    }
-
-    @Override
-    @Transactional
-    public void save(Transaction transaction) {
-        transaction.setTimestamp(new Date());
+    public boolean save(Transaction transaction) {
         logger.info("Got transaction to check and save: {}", transaction);
-        transactionRepository.save(transaction);
+        boolean result;
+        try {
+
+            transaction.setTimestamp(new Date());
+            User user = transaction.getUser();
+            Integer userBalance = user.getBalance();
+            String userName = user.getUsername();
+            if (userBalance < transaction.getAmount()) {
+                throw new IllegalStateException("Insufficient funds");
+            } else if (transaction.getAmount() <= 0) {
+                throw new IllegalArgumentException("Transaction amount cannot be negative");
+            }
+            userService.changeBalance(userName, -transaction.getAmount());
+            transactionRepository.save(transaction);
+            logger.info("Transaction saved: {}", transaction);
+            result = true;
+        } catch (Exception ex) {
+            result = false;
+            logger.error("Exception occurred when save transaction, {}", ex.getLocalizedMessage());
+            throw ex;
+        }
+        logger.info("Transaction save result={}", result);
+        return result;
     }
 
     @Override

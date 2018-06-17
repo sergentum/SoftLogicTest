@@ -47,7 +47,9 @@ public class TransactionController {
         ModelAndView modelAndView = new ModelAndView();
 
         if (!model.containsAttribute("transaction")) {
-            model.addAttribute("transaction", new Transaction());
+            Transaction transaction = new Transaction();
+
+            model.addAttribute("transaction", transaction);
         }
 
         model.addAttribute("payeeList", payeeRepository.findAll());
@@ -74,17 +76,29 @@ public class TransactionController {
             transaction.setUser(user);
         }
 
-        if (bindingResult.hasErrors()) {
-            logger.warn("binding errors occurs {}", bindingResult);
+        boolean successSave = false;
 
+        if (!bindingResult.hasErrors()) {
+            try {
+                transactionService.save(transaction);
+                successSave = true;
+            } catch (Exception ex) {
+                modelAndView.addObject("exception", ex.getLocalizedMessage());
+                redirectAttributes.addFlashAttribute("exception", ex.getLocalizedMessage());
+                logger.warn("exception while save transaction {}", ex.getLocalizedMessage());
+            }
+        } else {
+            logger.warn("binding errors occurs {}", bindingResult);
+        }
+
+        if (successSave) {
+            modelAndView.setViewName("redirect:/app/");
+        } else {
             redirectAttributes.addFlashAttribute("transaction", transaction);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.transaction", bindingResult);
             modelAndView.setViewName("redirect:/app/transaction");
-        } else {
-            logger.info("binding result {}", bindingResult);
-            transactionService.save(transaction);
-            modelAndView.setViewName("redirect:/app/");
         }
+
         return modelAndView;
     }
 

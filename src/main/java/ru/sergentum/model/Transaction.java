@@ -14,7 +14,6 @@ public class Transaction {
     @Column(name = "transaction_id")
     private int id;
 
-    @NotNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id")
     private User user;
