@@ -123,8 +123,6 @@ public class User implements UserDetails {
                 '}';
     }
 
-// TODO: 2018-06-04 implement methods correctly
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         HashSet<GrantedAuthority> authorities = new HashSet<>();

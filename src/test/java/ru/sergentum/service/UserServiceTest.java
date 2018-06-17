@@ -3,10 +3,12 @@ package ru.sergentum.service;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import ru.sergentum.controller.DBController;
 import ru.sergentum.model.Role;
 import ru.sergentum.model.User;
 import ru.sergentum.repository.datajpa.RoleRepository;
@@ -29,22 +31,18 @@ public class UserServiceTest {
     @Resource
     private UserService userService;
 
+    @Autowired
+    private DBController dbController;
+
     @Test
     public void save_user_thenGetOk() {
-
-        Role userRole = new Role("USER");
-        roleRepository.save(userRole);
-
-        User user = new User();
-        user.setUsername("01234567890");
-        user.setPassword("Password");
-        user.setEmail("asd@asd.asd");
-
-        userService.saveNewUser(user);
+        dbController.initdb();
+        User user = dbController.getTestUser();
 
         User user1 = (User) userService.loadUserByUsername(user.getUsername());
         Assert.assertNotNull(user1);
         Assert.assertNotNull(user1.getRoles());
+        Role userRole = roleRepository.findByRole("USER");
         Assert.assertTrue(user1.getRoles().contains(userRole));
     }
 }

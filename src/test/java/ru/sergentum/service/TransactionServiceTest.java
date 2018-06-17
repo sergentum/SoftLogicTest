@@ -3,19 +3,17 @@ package ru.sergentum.service;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.transaction.annotation.Transactional;
+import ru.sergentum.controller.DBController;
 import ru.sergentum.model.Payee;
-import ru.sergentum.model.Role;
-import ru.sergentum.model.Transaction;
 import ru.sergentum.model.User;
-import ru.sergentum.repository.datajpa.PayeeRepository;
 import ru.sergentum.repository.datajpa.RoleRepository;
 
-import javax.annotation.Resource;
-import javax.transaction.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("postgres")
@@ -26,47 +24,28 @@ import javax.transaction.Transactional;
 @Transactional
 public class TransactionServiceTest {
 
-    @Resource
-    private PayeeRepository payeeRepository;
-
-    @Resource
-    private RoleRepository roleRepository;
-
-    @Resource
-    private UserService userService;
-
-    @Resource
+    @Autowired
     private TransactionService transactionService;
+
+    @Autowired
+    DBController dbController;
+
+    @Autowired
+    RoleRepository roleRepository;
 
     @Test
     public void save_transaction_thenGetOk() {
+        dbController.initdb();
+        User testUser = dbController.getTestUser();
 
-        Payee payee = new Payee("OOO JKH" , 1, 10);
-        payeeRepository.save(payee);
+        Payee payee = dbController.createSomePayee("TestPayee");
 
-        Role userRole = new Role("USER");
-        roleRepository.save(userRole);
+        dbController.createSomeTransaction(testUser, payee, 1);
+        dbController.createSomeTransaction(testUser, payee, 2);
+        dbController.createSomeTransaction(testUser, payee, 3);
 
-        User user = new User();
-        user.setUsername("01234567890");
-        user.setPassword("Password");
-        user.setEmail("asd@asd.asd");
-        userService.saveNewUser(user);
 
-//        transactionService.doTransaction(user.getUsername(), payee.getName(), 1, "000000000000");
-//        transactionService.doTransaction(user.getUsername(), payee.getName(), 2, "000000000000");
-//        transactionService.doTransaction(user.getUsername(), payee.getName(), 3, "000000000000");
-
-        // TODO: 2018-06-17 fix tests 
-
-        Assert.assertFalse(transactionService.getTransactionList(user).isEmpty());
-        Assert.assertTrue(transactionService.getTransactionList(user).size() == 3);
-
-//        User dbUser = (User) userService.loadUserByUsername(user.getUsername());
-//        Assert.assertEquals(94, dbUser.getBalance());
-
-        for (Transaction transaction:transactionService.getTransactionList(user)) {
-            System.out.println(transaction);
-        }
+        Assert.assertFalse(transactionService.getTransactionList(testUser).isEmpty());
+        Assert.assertEquals(3, transactionService.getTransactionList(testUser).size());
     }
 }

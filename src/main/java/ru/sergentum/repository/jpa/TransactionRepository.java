@@ -7,4 +7,5 @@ import java.util.List;
 public interface TransactionRepository {
     List<Transaction> getAll(Integer userId);
     boolean save(Transaction transaction);
+    void deleteAll();
 }
