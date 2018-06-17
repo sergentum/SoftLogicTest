@@ -91,28 +91,15 @@ public class DBController {
 
     @RequestMapping(value = {"/initdb"}, method = RequestMethod.GET)
     public ModelAndView initdb() {
-        Payee payee1 = createSomePayee("OOO JKH");
-        Payee payee2 = createSomePayee("OOO PEK");
-        Payee payee3 = createSomePayee("OOO Cafe");
+        createSomePayee("OOO JKH");
+        createSomePayee("OOO PEK");
+        createSomePayee("OOO Cafe");
         Set<Role> roles = createRoles();
         testUser = createSomeUser(roles);
-//        createSomeTransaction(testUser, payee1, 1);
-//        createSomeTransaction(testUser, payee2, 2);
-//        createSomeTransaction(testUser, payee3, 3);
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("db");
         modelAndView.addObject("message", "DB init requested");
-        return modelAndView;
-    }
-
-    @RequestMapping(value = {"/dropdb"}, method = RequestMethod.GET)
-    private ModelAndView dropdb() {
-        // TODO: 2018-06-10 implement db drop
-
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("db");
-        modelAndView.addObject("message", "DB drop requested");
         return modelAndView;
     }
 

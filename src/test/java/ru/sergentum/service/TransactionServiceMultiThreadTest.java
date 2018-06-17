@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import ru.sergentum.controller.DBController;
@@ -24,6 +25,7 @@ import java.util.Set;
         "classpath:spring/spring-mvc.xml"
 })
 @WebAppConfiguration
+@Sql(scripts = "classpath:db/truncate.sql")
 public class TransactionServiceMultiThreadTest {
 
     private Logger logger = LoggerFactory.getLogger(TransactionServiceMultiThreadTest.class);
@@ -81,7 +83,5 @@ public class TransactionServiceMultiThreadTest {
         int totalBalance = ((User) userService.loadUserByUsername(testUser.getUsername())).getBalance();
         logger.info("User Total Balance = {}", totalBalance);
         Assert.assertEquals((START_BALANCE + TEST_BALANCE) - (THREAD_COUNT * TRANS_COUNT), totalBalance);
-
-        transactionService.deleteAll();
     }
 }
