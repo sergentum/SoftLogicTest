@@ -30,14 +30,16 @@ public class TransactionController {
 
     private TransactionService transactionService;
 
+    private UserService userService;
+
     private Logger logger = LoggerFactory.getLogger(TransactionController.class);
 
     @Autowired
-    public TransactionController(PayeeRepository payeeRepository, TransactionService transactionService) {
+    public TransactionController(PayeeRepository payeeRepository, TransactionService transactionService, UserService userService) {
         this.payeeRepository = payeeRepository;
         this.transactionService = transactionService;
+        this.userService = userService;
     }
-
 
     @RequestMapping(value = "/app/transaction", method = RequestMethod.GET)
     public ModelAndView getTransactionPage(ModelMap model) {
@@ -55,39 +57,22 @@ public class TransactionController {
         return modelAndView;
     }
 
-
-//    @RequestMapping(value = "/app/transaction", method = RequestMethod.POST)
-//    public ModelAndView postTransactionPage(
-//            @RequestParam("payeeName") String payeeName,
-//            @RequestParam("invoice") String invoice,
-//            @RequestParam("amount") Integer amount
-//    ) {
-//        logger.info("got parameters payee:{}, invoice:{}, amount:{}", payeeName, invoice, amount);
-//        ModelAndView modelAndView = new ModelAndView();
-//
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        String userName = auth.getName();
-//
-//        transactionService.doTransaction(userName, payeeName, amount, invoice);
-//        // TODO: 2018-06-15 check error and return success page or get back and highlight errors
-//
-//        modelAndView.setViewName("app/transaction");
-//        return modelAndView;
-//    }
-
     @RequestMapping(value = "/app/transaction", method = RequestMethod.POST)
     public ModelAndView postTransactionPage(
             @Valid Transaction transaction,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes
     ) {
-
         logger.info("got transaction to save: {}", transaction);
 
         ModelAndView modelAndView = new ModelAndView();
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        String userName = auth.getName();
+        if (transaction.getUser() == null) {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String userName = auth.getName();
+            User user = (User) userService.loadUserByUsername(userName);
+            transaction.setUser(user);
+        }
 
         if (bindingResult.hasErrors()) {
             logger.warn("binding errors occurs {}", bindingResult);
@@ -95,17 +80,13 @@ public class TransactionController {
             redirectAttributes.addFlashAttribute("transaction", transaction);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.transaction", bindingResult);
             modelAndView.setViewName("redirect:/app/transaction");
-
         } else {
             logger.info("binding result {}", bindingResult);
             transactionService.save(transaction);
             modelAndView.setViewName("redirect:/app/");
         }
-
-
         return modelAndView;
     }
-
 
     @RequestMapping(value = "/app/transactionSuccess", method = RequestMethod.GET)
     public ModelAndView getTransactionSuccessPage() {

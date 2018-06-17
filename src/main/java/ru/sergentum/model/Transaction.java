@@ -14,6 +14,7 @@ public class Transaction {
     @Column(name = "transaction_id")
     private int id;
 
+    @NotNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id")
     private User user;
@@ -23,9 +24,8 @@ public class Transaction {
     @JoinColumn(name = "payee_id")
     private Payee payee;
 
-    // TODO: 2018-06-16 uncomment when jsp ready
-//    @NotEmpty
-    private int amount;
+    @NotNull
+    private Integer amount;
 
     @NotEmpty
     private String invoice;
@@ -42,7 +42,7 @@ public class Transaction {
         this.payee = payee;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(Integer amount) {
         this.amount = amount;
     }
 
@@ -54,7 +54,7 @@ public class Transaction {
         return payee;
     }
 
-    public int getAmount() {
+    public Integer getAmount() {
         return amount;
     }
 

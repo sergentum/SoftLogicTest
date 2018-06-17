@@ -1,7 +1,10 @@
 package ru.sergentum.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.sergentum.controller.TransactionController;
 import ru.sergentum.model.Payee;
 import ru.sergentum.model.Transaction;
 import ru.sergentum.model.User;
@@ -20,6 +23,8 @@ public class TransactionServiceImpl implements TransactionService {
     private UserService userService;
 
     private PayeeRepository payeeRepository;
+
+    private Logger logger = LoggerFactory.getLogger(TransactionServiceImpl.class);
 
     @Autowired
     public TransactionServiceImpl(TransactionRepository transactionRepository, UserService userService, PayeeRepository payeeRepository) {
@@ -55,7 +60,10 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    @Transactional
     public void save(Transaction transaction) {
+        transaction.setTimestamp(new Date());
+        logger.info("Got transaction to check and save: {}", transaction);
         transactionRepository.save(transaction);
     }
 

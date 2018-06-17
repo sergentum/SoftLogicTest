@@ -15,101 +15,41 @@
 
         <spring:bind path="payee">
             <div class="form-group ${status.error ? 'has-error' : ''}">
-
-                <form:select type="payee" path="payee" class="form-control">
-                    <form:options items="${payeeList}" itemValue="id" itemLabel="name"/>
-                </form:select>
-                <form:errors path="payee"/>
+                <p>Payee:
+                    <form:select type="payee" path="payee" class="form-control">
+                        <form:options items="${payeeList}" itemValue="id" itemLabel="name"/>
+                    </form:select>
+                    <form:errors path="payee"/>
+                </p>
             </div>
         </spring:bind>
 
         <spring:bind path="invoice">
             <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="text" path="invoice" class="form-control" placeholder="invoice"/>
-                <form:errors path="invoice"/>
+                <p>Invoice:
+                    <form:input type="text" path="invoice" class="form-control"/>
+                    <form:errors path="invoice"/>
+                </p>
             </div>
         </spring:bind>
 
-        <%--<spring:bind path="email">--%>
-            <%--<div class="form-group ${status.error ? 'has-error' : ''}">--%>
-                <%--<form:input type="text" path="email" class="form-control" placeholder="Email"/>--%>
-                <%--<form:errors path="email"/>--%>
-            <%--</div>--%>
-        <%--</spring:bind>--%>
+        <spring:bind path="amount">
+            <div class="form-group ${status.error ? 'has-error' : ''}">
+                <p>Amount:
+                    <form:input type="number" path="amount" class="form-control" min="1" max="100"/>
+                    <form:errors path="amount"/>
+                </p>
+            </div>
+        </spring:bind>
 
-        <%--<spring:bind path="password">--%>
-            <%--<div class="form-group ${status.error ? 'has-error' : ''}">--%>
-                <%--<form:input type="password" path="password" class="form-control" placeholder="Password"/>--%>
-                <%--<form:errors path="password"/>--%>
-            <%--</div>--%>
-        <%--</spring:bind>--%>
+        <button class="form-group btn btn-lg btn-primary" type="submit">Submit</button>
 
-        <%--<spring:bind path="passwordConfirm">--%>
-            <%--<div class="form-group ${status.error ? 'has-error' : ''}">--%>
-                <%--<form:input type="password" path="passwordConfirm" class="form-control"--%>
-                            <%--placeholder="Confirm your password"/>--%>
-                <%--<form:errors path="passwordConfirm"/>--%>
-            <%--</div>--%>
-        <%--</spring:bind>--%>
-
-        <%--<c:out value="${message}"/>--%>
-
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+        <button class="form-group btn btn-lg btn-danger pull-right" href="../app/">Cancel</button>
     </form:form>
 
 </div>
 
 
-<div class="container">
-
-    <form:form method="POST" action="/app/transaction" >
-        <h2 class="form-signin-heading">Create new transaction</h2>
-
-        <table class="table" style="width: available;">
-            <tr>
-                <th>Payee</th>
-                <td>
-                    <select class="pull-right" name="payeeName">
-                        <c:forEach var="payee" items="${payeeList}">
-                            <option value="${payee.name}">
-                                <c:out value="${payee.name}"/>
-                            </option>
-                        </c:forEach>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <th>Invoice</th>
-                <td>
-                    <input class="pull-right" type="text" name="invoice" value=""/>
-                </td>
-
-            </tr>
-            <tr>
-                <th>Amount</th>
-                <td>
-                    <input class="pull-right" type="text" name="amount" value=""/>
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">
-                        Submit
-                    </button>
-                </td>
-                <td>
-                    <a class="btn btn-lg btn-danger pull-right" href="../app/" role="button">
-                        Cancel
-                    </a>
-                </td>
-            </tr>
-
-
-        </table>
-    </form:form>
-
-</div>
 <jsp:include page="../include/footer.jsp"/>
 </body>
 </html>
