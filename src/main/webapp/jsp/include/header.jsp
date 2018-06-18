@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: username
@@ -16,7 +17,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Spring Security</title>
+    <title><fmt:message key="app.title"/></title>
 
     <!-- Bootstrap core CSS -->
     <link href="<c:url value="/resources/css/bootstrap.css" />" rel="stylesheet">
@@ -37,17 +38,16 @@
             <tr>
                 <td>
                     <a class="btn btn-sm btn-primary" href="<c:url value="/" />" role="button">
-                        AppName
+                        <fmt:message key="app.title"/>
                     </a>
                 </td>
                 <td>
                     <a class="btn btn-sm btn-success pull-right" href="<c:url value="/registration" />" role="button">
-                        Register
+                        <fmt:message key="app.register"/>
                     </a>
-                <%--</td>--%>
-                <%--<td>--%>
+
                     <a class="btn btn-sm btn-success pull-right" href="<c:url value="/login" />" role="button">
-                        Login
+                        <fmt:message key="app.login"/>
                     </a>
                 </td>
             </tr>
@@ -61,18 +61,18 @@
             <tr>
                 <td>
                     <a class="btn btn-sm btn-success" href="<c:url value="/" />" role="button">
-                        AppName
+                        <fmt:message key="app.title"/>
                     </a>
                 </td>
                 <td>
-                    Your login:
+                    <fmt:message key="app.profile"/>
                     <a class="btn btn-sm btn-primary" href="<c:url value="../app/" />" role="button">
                         <sec:authentication property="principal.username"/>
                     </a>
                 </td>
                 <td>
                     <a class="btn btn-sm btn-danger pull-right" href="<c:url value="/logout" />" role="button">
-                        Log out
+                        <fmt:message key="app.logout"/>
                     </a>
                 </td>
             </tr>

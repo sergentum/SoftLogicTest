@@ -3,12 +3,15 @@ package ru.sergentum.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.sergentum.model.Transaction;
 import ru.sergentum.model.User;
 import ru.sergentum.repository.jpa.TransactionRepository;
+import sun.misc.resources.Messages;
 
 import java.util.Date;
 import java.util.List;
@@ -21,6 +24,9 @@ public class TransactionServiceImpl implements TransactionService {
     private UserService userService;
 
     private Logger logger = LoggerFactory.getLogger(TransactionServiceImpl.class);
+
+    @Autowired
+    ru.sergentum.util.Messages messages;
 
     @Autowired
     public TransactionServiceImpl(TransactionRepository transactionRepository, UserService userService) {
@@ -39,9 +45,9 @@ public class TransactionServiceImpl implements TransactionService {
             String userName = user.getUsername();
 
             if (userBalance < transaction.getAmount()) {
-                throw new IllegalStateException("Insufficient funds");
+                throw new IllegalStateException("error.insufFunds");
             } else if (transaction.getAmount() <= 0) {
-                throw new IllegalArgumentException("Transaction amount cannot be negative");
+                throw new IllegalArgumentException("error.negativeAmount");
             }
 
             userService.changeBalance(userName, -transaction.getAmount());
@@ -54,10 +60,5 @@ public class TransactionServiceImpl implements TransactionService {
     public List<Transaction> getTransactionList(User user) {
 
         return transactionRepository.getAll(user.getId());
-    }
-
-    @Override
-    public void deleteAll() {
-        transactionRepository.deleteAll();
     }
 }

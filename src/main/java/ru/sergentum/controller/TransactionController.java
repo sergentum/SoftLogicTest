@@ -3,6 +3,7 @@ package ru.sergentum.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.sergentum.model.Payee;
@@ -22,6 +24,7 @@ import ru.sergentum.service.UserService;
 
 import javax.validation.Valid;
 import java.beans.PropertyEditorSupport;
+import java.util.Locale;
 
 @Controller
 public class TransactionController {
@@ -35,6 +38,9 @@ public class TransactionController {
     private Logger logger = LoggerFactory.getLogger(TransactionController.class);
 
     @Autowired
+    MessageSource messageSource;
+
+    @Autowired
     public TransactionController(PayeeRepository payeeRepository, TransactionService transactionService, UserService userService) {
         this.payeeRepository = payeeRepository;
         this.transactionService = transactionService;
@@ -42,8 +48,11 @@ public class TransactionController {
     }
 
     @RequestMapping(value = "/app/transaction", method = RequestMethod.GET)
-    public ModelAndView getTransactionPage(ModelMap model) {
-        logger.info("start");
+    public ModelAndView getTransactionPage(
+            ModelMap model,
+            Locale locale
+    ) {
+        logger.info("locale = {}", locale);
         ModelAndView modelAndView = new ModelAndView();
 
         if (!model.containsAttribute("transaction")) {
@@ -63,7 +72,8 @@ public class TransactionController {
     public ModelAndView postTransactionPage(
             @Valid Transaction transaction,
             BindingResult bindingResult,
-            RedirectAttributes redirectAttributes
+            RedirectAttributes redirectAttributes,
+            Locale locale
     ) {
         logger.info("got transaction to save: {}", transaction);
 
@@ -83,9 +93,12 @@ public class TransactionController {
                 transactionService.save(transaction);
                 successSave = true;
             } catch (Exception ex) {
-                modelAndView.addObject("exception", ex.getLocalizedMessage());
-                redirectAttributes.addFlashAttribute("exception", ex.getLocalizedMessage());
-                logger.warn("exception while save transaction {}", ex.getLocalizedMessage());
+                String localizedErrorMessage = messageSource.getMessage(ex.getMessage(), null, locale);
+                System.out.println(localizedErrorMessage);
+                modelAndView.addObject("exception", localizedErrorMessage);
+
+                redirectAttributes.addFlashAttribute("exception", localizedErrorMessage);
+                logger.warn("exception while save transaction {}", localizedErrorMessage);
             }
         } else {
             logger.warn("binding errors occurs {}", bindingResult);

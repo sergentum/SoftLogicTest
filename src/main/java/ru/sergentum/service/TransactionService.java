@@ -10,6 +10,4 @@ public interface TransactionService {
     List<Transaction> getTransactionList(User user);
 
     void save(Transaction transaction);
-
-    void deleteAll();
 }

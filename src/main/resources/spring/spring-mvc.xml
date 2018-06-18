@@ -17,10 +17,10 @@
     <context:annotation-config/>
 
     <context:component-scan base-package="**.service"/>
+    <context:component-scan base-package="**.controller"/>
+    <context:component-scan base-package="**.util"/>
 
     <security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled"/>
-
-    <context:component-scan base-package="**.controller"/>
 
     <mvc:resources mapping="/resources/**" location="/resources/"/>
 

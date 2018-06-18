@@ -29,9 +29,4 @@ public class TransactionRepositoryImpl implements TransactionRepository {
         crudTransactionRepository.save(transaction);
         return true;
     }
-
-    @Override
-    public void deleteAll() {
-        crudTransactionRepository.deleteAll();
-    }
 }
